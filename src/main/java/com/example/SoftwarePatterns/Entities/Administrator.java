@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Administrator {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.TABLE)
     private Integer id;
     private String username;
 

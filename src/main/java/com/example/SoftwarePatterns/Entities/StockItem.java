@@ -9,7 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class StockItem {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.TABLE)
     private Integer id;
     String title, manufacturer, category, image;
     double price;
