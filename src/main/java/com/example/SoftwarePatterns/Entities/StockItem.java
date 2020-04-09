@@ -1,4 +1,4 @@
-package com.example.SoftwarePatterns;
+package com.example.SoftwarePatterns.Entities;
 
 
 import javax.persistence.Entity;
