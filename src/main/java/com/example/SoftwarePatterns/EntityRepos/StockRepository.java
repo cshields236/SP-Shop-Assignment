@@ -1,4 +1,4 @@
-package com.example.SoftwarePatterns;
+package com.example.SoftwarePatterns.EntityRepos;
 
 import com.example.SoftwarePatterns.Entities.StockItem;
 import org.springframework.data.repository.CrudRepository;
