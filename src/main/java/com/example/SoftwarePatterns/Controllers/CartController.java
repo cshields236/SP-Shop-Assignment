@@ -29,16 +29,16 @@ public class CartController {
         return "welcome";
     }
 
-    @RequestMapping(value = "buy/{id}", method = RequestMethod.GET)
-    public String buy(@PathVariable("id") int id, HttpServletRequest request) {
+    @GetMapping(value = "buy/{id}")
+    public String buy(@PathVariable("id") int id, HttpSession session) {
 
-        if (request.getAttribute("cart") == null) {
+        if (session.getAttribute("cart") == null) {
             List<Item> cart = new ArrayList<Item>();
             cart.add(new Item(stockService.findById(id), 1));
-            request.setAttribute("mode", "STORE_CART");
-            request.setAttribute("cart", cart);
+
+            session.setAttribute("cart", cart);
         } else {
-            List<Item> cart = (List<Item>) request.getAttribute("cart");
+            List<Item> cart = (List<Item>) session.getAttribute("cart");
             int index = this.exists(id, cart);
             if (index == -1) {
                 cart.add(new Item(stockService.findById(id), 1));
@@ -46,21 +46,21 @@ public class CartController {
                 int quantity = cart.get(index).getQuantity() + 1;
                 cart.get(index).setQuantity(quantity);
             }
+            session.setAttribute("cart", cart);
 
-            request.setAttribute("cart", cart);
-            request.setAttribute("mode", "STORE_CART");
         }
+        session.setAttribute("mode", "STORE_CART");
         return "welcome";
     }
 
     @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)
-    public String remove(@PathVariable("id") int id, HttpServletRequest request) {
-        List<Item> cart = (List<Item>) request.getAttribute("cart");
+    public String remove(@PathVariable("id") int id, HttpSession session) {
+        List<Item> cart = (List<Item>) session.getAttribute("cart");
         int index = this.exists(id, cart);
         cart.remove(index);
 
-        request.setAttribute("cart", cart);
-        request.setAttribute("mode", "STORE_CART");
+        session.setAttribute("cart", cart);
+        session.setAttribute("mode", "STORE_CART");
         return "welcome";
     }
 

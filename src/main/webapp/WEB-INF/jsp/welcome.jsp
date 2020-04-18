@@ -169,10 +169,9 @@
 
     <c:when test="${mode=='STORE_CART' }">
         <h3>Cart Page</h3>
-        <table cellpadding="2" cellspacing="2" border="1">
+        <table class="table table-striped table-bordered">
             <tr>
                 <th>Option</th>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Photo</th>
                 <th>Price</th>
@@ -180,14 +179,14 @@
                 <th>Sub Total</th>
             </tr>
             <c:set var="total" value="0"></c:set>
-            <c:forEach var="item" items="${cart }">
+            <c:forEach var="item" items="${sessionScope.cart }">
                 <c:set var="total"
                        value="${total + item.stockItem.price * item.quantity }"></c:set>
                 <tr>
                     <td align="center"><a
-                            href="${pageContext.request.contextPath }/cart/remove/${item.stockItem.id }"
+                            href="/cart/remove/${item.stockItem.id }"
                             onclick="return confirm('Are you sure?')">Remove</a></td>
-                    <td>${item.stockItem.id }</td>
+
                     <td>${item.stockItem.title }</td>
                     <td><img src="${pageContext.request.contextPath }/resources/images/${item.stockItem.image }"
                              width="50"></td>
