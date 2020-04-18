@@ -1,10 +1,9 @@
-package com.example.SoftwarePatterns;
-
-import java.util.Map;
+package com.example.SoftwarePatterns.Controllers;
 
 
 import com.example.SoftwarePatterns.Entities.Customer;
 
+import com.example.SoftwarePatterns.Services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

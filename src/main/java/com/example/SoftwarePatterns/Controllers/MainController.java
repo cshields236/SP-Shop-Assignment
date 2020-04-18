@@ -1,4 +1,4 @@
-package com.example.SoftwarePatterns;
+package com.example.SoftwarePatterns.Controllers;
 
 
 import com.example.SoftwarePatterns.Entities.Administrator;
@@ -7,6 +7,8 @@ import com.example.SoftwarePatterns.Entities.StockItem;
 import com.example.SoftwarePatterns.EntityRepos.AdministratorRepository;
 import com.example.SoftwarePatterns.EntityRepos.CustomerRepository;
 import com.example.SoftwarePatterns.EntityRepos.StockRepository;
+import com.example.SoftwarePatterns.Services.CustomerService;
+import com.example.SoftwarePatterns.Services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(path = "/")
 public class MainController {
     @Autowired
-    private StockRepository stockRepository;
+    private StockRepository stockService;
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
@@ -32,7 +34,7 @@ public class MainController {
     String addNewStock(@RequestParam String title, @RequestParam String manufacturer, @RequestParam String category, @RequestParam String image, @RequestParam double price) {
 
         StockItem item = new StockItem(title, manufacturer, category, image, price);
-        stockRepository.save(item);
+        stockService.save(item);
         return "Saved!";
 
     }
@@ -49,7 +51,6 @@ public class MainController {
         return "welcome";
     }
 
-    //    String name, String username, String password, String address, String payment
     @GetMapping(path = "/add-Customer")
     public @ResponseBody
     Customer addNewCustomer(@RequestParam String name, @RequestParam String username, @RequestParam String password, @RequestParam String address, @RequestParam String payment) {
@@ -59,7 +60,6 @@ public class MainController {
     }
 
     @PostMapping(path = "/addAdmin")
-
     public @ResponseBody
     String addNewCustomer(@RequestParam String username, @RequestParam String password) {
         Administrator administrator = new Administrator(username, password);
@@ -78,7 +78,8 @@ public class MainController {
     @RequestMapping("/login-user")
     public String loginUser(@ModelAttribute Customer customer, HttpServletRequest request) {
         if (customerService.findByUsernameAndPassword(customer.getUsername(), customer.getPassword()) != null) {
-            return "homepage";
+            request.setAttribute("mode", "STORE_ITEMS");
+            return "welcome";
         } else {
             request.setAttribute("error", "Invalid Username or Password");
             request.setAttribute("mode", "MODE_LOGIN");
@@ -87,10 +88,13 @@ public class MainController {
         }
     }
 
-    @GetMapping(path = "/all")
-    public @ResponseBody
-    Iterable<StockItem> getAllStock() {
+
+    @GetMapping(path = "/show-stock")
+    public String getAll(HttpServletRequest request) {
         // This returns a JSON or XML with the users
-        return stockRepository.findAll();
+        Iterable<StockItem> getAllStocks = stockService.findAll();
+        request.setAttribute("Items", getAllStocks);
+        request.setAttribute("mode", "STORE_ITEMS");
+        return "welcome";
     }
 }

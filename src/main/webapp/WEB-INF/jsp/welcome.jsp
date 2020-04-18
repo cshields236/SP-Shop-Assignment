@@ -124,6 +124,42 @@
         </div>
     </c:when>
 
+
+    <c:when test="${mode=='STORE_ITEMS' }">
+        <div class="container text-center" id="tasksDiv" action="/show-stock">
+            <h3>Stock</h3>
+            <hr>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Manufacturer</th>
+                        <th>Category</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Buy</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="stockItem" items="${Items }">
+                        <tr>
+                            <td>${stockItem.title }</td>
+                            <td>${stockItem.manufacturer }</td>
+                            <td>${stockItem.category }</td>
+                            <td> <img src=${stockItem.image }.jpg > </td>
+                            <td>${stockItem.price }</td>
+                            <td><a href="/buy-item?id=${stockItem.id }"><span>
+                                <input type="submit" class="btn btn-primary" value="Buy"/>></span></a></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </c:when>
+
 </c:choose>
 
 </body>
