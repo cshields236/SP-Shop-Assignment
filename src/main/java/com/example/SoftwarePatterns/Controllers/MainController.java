@@ -28,16 +28,7 @@ public class MainController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping(path = "/addStock")
-    @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody
-    String addNewStock(@RequestParam String title, @RequestParam String manufacturer, @RequestParam String category, @RequestParam String image, @RequestParam double price) {
 
-        StockItem item = new StockItem(title, manufacturer, category, image, price);
-        stockService.save(item);
-        return "Saved!";
-
-    }
 
     @RequestMapping("/welcome")
     public String Welcome(HttpServletRequest request) {
@@ -88,6 +79,18 @@ public class MainController {
         }
     }
 
+
+
+    @PostMapping(path = "/addStock")
+    @ResponseStatus(HttpStatus.CREATED)
+    public @ResponseBody
+    String addNewStock(@RequestParam String title, @RequestParam String manufacturer, @RequestParam String category, @RequestParam String image, @RequestParam double price, @RequestParam int quantity) {
+
+        StockItem item = new StockItem(title, manufacturer, category, image, price, quantity);
+        stockService.save(item);
+        return "Saved!";
+
+    }
 
     @GetMapping(path = "/show-stock")
     public String getAll(HttpServletRequest request) {

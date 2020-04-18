@@ -21,6 +21,22 @@
 <body>
 
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/show-stock">Health Store</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="/login">Login</a>
+            <a class="nav-item nav-link" href="/register">Register</a>
+            <a class="nav-item nav-link " href="/show-stock">View Store</a>
+        </div>
+    </div>
+</nav>
+
 <c:choose>
     <c:when test="${mode=='MODE_HOME' }">
         <div class="container" id="homediv">
@@ -32,55 +48,44 @@
     </c:when>
 
     <c:when test="${mode=='MODE_REGISTER' }">
-        <div role="navigation">
-            <div class="navbar navbar-inverse">
-                <a href="/welcome" class="navbar-brand">SP Store</a>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/register">New Registration</a></li>
-                        <li><a href="/show-users">All Users</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+
 
         <div class="container text-center">
             <h3>New Registration</h3>
             <hr>
-            <form class="form-horizontal" method="POST" action="addCustomer">
+            <form method="POST" action="addCustomer">
                 <input type="hidden" name="id" value="${user.id }"/>
                 <div class="form-group">
                     <label class="control-label col-md-3">Name</label>
-                    <div class="col-md-7">
+                    <div class="col-md-12">
                         <input type="text" class="form-control" name="name"
                                value="${user.name }"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Username</label>
-                    <div class="col-md-7">
+                    <div class="col-md-12">
                         <input type="text" class="form-control" name="username"
                                value="${user.username }"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3">Password</label>
-                    <div class="col-md-7">
+                    <label class="control-label col-md-12">Password</label>
+                    <div class="col-md-12">
                         <input type="password" class="form-control" name="password"
                                value="${user.password }"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Address </label>
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <input type="text" class="form-control" name="address"
                                value="${user.address }"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Payment Type</label>
-                    <div class="col-md-7">
+                    <div class="col-md-12">
                         <input type="text" class="form-control" name="payment"
                                value="${user.payment }"/>
                     </div>
@@ -138,7 +143,7 @@
                         <th>Category</th>
                         <th>Image</th>
                         <th>Price</th>
-                        <th>Buy</th>
+                        <th>Quantity</th>
 
                     </tr>
                     </thead>
@@ -148,16 +153,57 @@
                             <td>${stockItem.title }</td>
                             <td>${stockItem.manufacturer }</td>
                             <td>${stockItem.category }</td>
-                            <td> <img src=${stockItem.image }.jpg > </td>
+                            <td><img src=${stockItem.image }.jpg></td>
                             <td>${stockItem.price }</td>
-                            <td><a href="/buy-item?id=${stockItem.id }"><span>
-                                <input type="submit" class="btn btn-primary" value="Buy"/>></span></a></td>
+                            <td>${stockItem.quantity }</td>
+                            <td><a href="/cart/buy/${stockItem.id }"><span>
+                                <input type="submit" class="btn btn-primary" value="Add To Cart"/></span></a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
             </div>
         </div>
+    </c:when>
+
+
+    <c:when test="${mode=='STORE_CART' }">
+        <h3>Cart Page</h3>
+        <table cellpadding="2" cellspacing="2" border="1">
+            <tr>
+                <th>Option</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Photo</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Sub Total</th>
+            </tr>
+            <c:set var="total" value="0"></c:set>
+            <c:forEach var="item" items="${cart }">
+                <c:set var="total"
+                       value="${total + item.stockItem.price * item.quantity }"></c:set>
+                <tr>
+                    <td align="center"><a
+                            href="${pageContext.request.contextPath }/cart/remove/${item.stockItem.id }"
+                            onclick="return confirm('Are you sure?')">Remove</a></td>
+                    <td>${item.stockItem.id }</td>
+                    <td>${item.stockItem.title }</td>
+                    <td><img src="${pageContext.request.contextPath }/resources/images/${item.stockItem.image }"
+                             width="50"></td>
+                    <td>${item.stockItem.price }</td>
+                    <td>${item.quantity }</td>
+                    <td>${item.stockItem.price * item.quantity }</td>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td colspan="6" align="right">Sum</td>
+                <td>${total }</td>
+            </tr>
+        </table>
+        <br>
+        <a href="${pageContext.request.contextPath }/product">Continue
+            Shopping</a>
     </c:when>
 
 </c:choose>

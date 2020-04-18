@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 
 public interface StockRepository extends CrudRepository<StockItem, Integer>  {
+    StockItem findById(int id);
 }

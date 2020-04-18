@@ -32,4 +32,8 @@ public class StockService {
 
         return stockItems;
     }
+
+    public StockItem findById(int id) {
+        return stockRepository.findById(id);
+    }
 }

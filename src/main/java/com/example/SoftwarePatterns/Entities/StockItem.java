@@ -12,17 +12,19 @@ public class StockItem {
     @GeneratedValue(strategy= GenerationType.TABLE)
     private Integer id;
     String title, manufacturer, category, image;
+    int quantity;
     double price;
 
     public StockItem() {
     }
 
-    public StockItem(String title, String manufacturer, String category, String image, double price) {
+    public StockItem(String title, String manufacturer, String category, String image, double price, int quantity) {
         this.title = title;
         this.manufacturer = manufacturer;
         this.category = category;
         this.image = image;
         this.price = price;
+        this.quantity = quantity;
     }
 
     public Integer getId() {
@@ -71,5 +73,13 @@ public class StockItem {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
