@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -46,55 +48,60 @@
         </div>
 
     </c:when>
-
     <c:when test="${mode=='MODE_REGISTER' }">
 
+        <form:form method="POST" action="addCustomer" class="form-signin">
+            <h2 class="form-signin-heading">Create your account</h2>
+            <div class="container">
+            <spring:bind path="name">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input type="text" path="name" class="form-control" placeholder="Name"
+                                autofocus="true"></form:input>
+                    <form:errors path="name"></form:errors>
+                </div>
+            </spring:bind>
 
-        <div class="container text-center">
-            <h3>New Registration</h3>
-            <hr>
-            <form method="POST" action="addCustomer">
-                <input type="hidden" name="id" value="${user.id }"/>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Name</label>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="name"
-                               value="${user.name }"/>
-                    </div>
+
+            <spring:bind path="username">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input type="text" path="username" class="form-control" placeholder="Username"
+                                autofocus="true"></form:input>
+                    <form:errors path="username"></form:errors>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Username</label>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="username"
-                               value="${user.username }"/>
-                    </div>
+            </spring:bind>
+
+            <spring:bind path="password">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input type="password" path="password" class="form-control"
+                                placeholder="Password"></form:input>
+                    <form:errors path="password"></form:errors>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-12">Password</label>
-                    <div class="col-md-12">
-                        <input type="password" class="form-control" name="password"
-                               value="${user.password }"/>
-                    </div>
+            </spring:bind>
+            <spring:bind path="address">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input type="text" path="address" class="form-control" placeholder="Address"
+                                autofocus="true"></form:input>
+                    <form:errors path="address"></form:errors>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Address </label>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="address"
-                               value="${user.address }"/>
-                    </div>
+            </spring:bind>
+
+
+            <spring:bind path="payment">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input type="text" path="passwordConfirm" class="form-control"
+                                placeholder="Enter Your Payment Type"></form:input>
+                    <form:errors path="payment"></form:errors>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3">Payment Type</label>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="payment"
-                               value="${user.payment }"/>
-                    </div>
-                </div>
-                <div class="form-group ">
-                    <input type="submit" class="btn btn-primary" value="Register"/>
-                </div>
-            </form>
+            </spring:bind>
+
+
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        </form:form>
+
         </div>
+
+
     </c:when>
 
 
@@ -183,9 +190,13 @@
                 <c:set var="total"
                        value="${total + item.stockItem.price * item.quantity }"></c:set>
                 <tr>
-                    <td align="center"><a
-                            href="/cart/remove/${item.stockItem.id }"
-                            onclick="return confirm('Are you sure?')">Remove</a></td>
+
+
+                    <td align="center"><a href="/cart/remove/${item.stockItem.id }"
+                                          onclick="return confirm('Are you sure?')"> <img alt="Qries"
+                                                                                          src="data:image/png;base64,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"
+                                                                                          width=70" height="70"></a>
+                    </td>
 
                     <td>${item.stockItem.title }</td>
                     <td><img src="${pageContext.request.contextPath }/resources/images/${item.stockItem.image }"
@@ -196,13 +207,13 @@
                 </tr>
             </c:forEach>
             <tr>
-                <td colspan="6" align="right">Sum</td>
+                <td colspan="6" align="right">Cart Total</td>
                 <td>${total }</td>
             </tr>
         </table>
         <br>
-        <a href="${pageContext.request.contextPath }/product">Continue
-            Shopping</a>
+        <a href="${pageContext.request.contextPath }/show-stock">Continue
+            Shopping img</a>
     </c:when>
 
 </c:choose>

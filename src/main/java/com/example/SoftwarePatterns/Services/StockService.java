@@ -1,8 +1,6 @@
 package com.example.SoftwarePatterns.Services;
 
-import com.example.SoftwarePatterns.Entities.Customer;
 import com.example.SoftwarePatterns.Entities.StockItem;
-import com.example.SoftwarePatterns.EntityRepos.CustomerRepository;
 import com.example.SoftwarePatterns.EntityRepos.StockRepository;
 import org.springframework.stereotype.Service;
 

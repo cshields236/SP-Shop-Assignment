@@ -1,9 +1,9 @@
 package com.example.SoftwarePatterns.Controllers;
 
 
-import com.example.SoftwarePatterns.Entities.Customer;
+import com.example.SoftwarePatterns.Entities.User;
 
-import com.example.SoftwarePatterns.Services.CustomerService;
+import com.example.SoftwarePatterns.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class RestController {
 
 
     @Autowired
-    private CustomerService customerService;
+    private UserService userService;
     // inject via application.properties
     private String message = "Hello World";
 
@@ -26,8 +26,8 @@ public class RestController {
     }
 
     @PostMapping("/addCustomer")
-    public String addCustomer(@ModelAttribute Customer customer, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
-        customerService.saveMyCustomer(customer);
+    public String addCustomer(@ModelAttribute User user, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+        userService.saveMyCustomer(user);
         return "welecome";
     }
 }

@@ -1,29 +1,44 @@
 package com.example.SoftwarePatterns.Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-public class Customer {
+public class User {
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name, username, password, address, payment;
 
-
-    public Customer() {
+    @ManyToMany
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private List<Role> roles;
+    public User() {
     }
 
 
-    public Customer(String name, String username, String password, String address, String payment) {
+    public User(String name, String username, String password, String address, String payment) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.address = address;
         this.payment = payment;
     }
+    public User(String name, String username, String password, String address, String payment, List<Role> roles) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.address = address;
+        this.payment = payment;
+        this.roles = roles;
+    }
+
 
 
     public Integer getId() {
@@ -73,4 +88,13 @@ public class Customer {
     public void setPayment(String payment) {
         this.payment = payment;
     }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
 }

@@ -2,19 +2,23 @@ package com.example.SoftwarePatterns.Controllers;
 
 
 import com.example.SoftwarePatterns.Entities.Administrator;
-import com.example.SoftwarePatterns.Entities.Customer;
+import com.example.SoftwarePatterns.Entities.Role;
+import com.example.SoftwarePatterns.Entities.User;
 import com.example.SoftwarePatterns.Entities.StockItem;
 import com.example.SoftwarePatterns.EntityRepos.AdministratorRepository;
-import com.example.SoftwarePatterns.EntityRepos.CustomerRepository;
+import com.example.SoftwarePatterns.EntityRepos.UserRepository;
 import com.example.SoftwarePatterns.EntityRepos.StockRepository;
-import com.example.SoftwarePatterns.Services.CustomerService;
-import com.example.SoftwarePatterns.Services.StockService;
+import com.example.SoftwarePatterns.Services.UserService;
+import com.example.SoftwarePatterns.Validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.beans.Transient;
+import java.util.*;
 
 @Controller
 @RequestMapping(path = "/")
@@ -22,12 +26,11 @@ public class MainController {
     @Autowired
     private StockRepository stockService;
     @Autowired
-    private CustomerRepository customerRepository;
+    private UserRepository userRepository;
     @Autowired
     private AdministratorRepository administratorRepository;
     @Autowired
-    private CustomerService customerService;
-
+    private UserService userService;
 
 
     @RequestMapping("/welcome")
@@ -42,11 +45,21 @@ public class MainController {
         return "welcome";
     }
 
-    @GetMapping(path = "/add-Customer")
+    @PostMapping(path = "/add-Customer")
     public @ResponseBody
-    Customer addNewCustomer(@RequestParam String name, @RequestParam String username, @RequestParam String password, @RequestParam String address, @RequestParam String payment) {
-        Customer customer = new Customer(name, username, password, address, payment);
-        return customerRepository.save(customer);
+    String addNewCustomer(@RequestParam String name, @RequestParam String username, @RequestParam String password, @RequestParam String address, @RequestParam String payment, @RequestParam String r) {
+
+        List<Role> roles = new ArrayList<>();
+
+        
+        roles.add(new Role(r));
+        User user = new User(name, username, password, address, payment, roles);
+
+
+        userService.saveMyCustomer(user);
+
+
+        return "welcome";
 
     }
 
@@ -67,8 +80,8 @@ public class MainController {
     }
 
     @RequestMapping("/login-user")
-    public String loginUser(@ModelAttribute Customer customer, HttpServletRequest request) {
-        if (customerService.findByUsernameAndPassword(customer.getUsername(), customer.getPassword()) != null) {
+    public String loginUser(@ModelAttribute User user, HttpServletRequest request) {
+        if (userService.findByUsernameAndPassword(user.getUsername(), user.getPassword()) != null) {
             request.setAttribute("mode", "STORE_ITEMS");
             return "welcome";
         } else {
@@ -78,7 +91,6 @@ public class MainController {
 
         }
     }
-
 
 
     @PostMapping(path = "/addStock")
