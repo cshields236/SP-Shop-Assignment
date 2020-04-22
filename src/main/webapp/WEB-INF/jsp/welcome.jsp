@@ -196,6 +196,15 @@
     </c:when>
 
 
+
+
+
+
+
+
+
+
+
     <c:when test="${mode=='STORE_ITEMS' }">
         <div class="container text-center" id="tasksDiv" action="/show-stock">
             <h3>Stock</h3>
