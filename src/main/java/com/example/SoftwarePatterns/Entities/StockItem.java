@@ -14,8 +14,17 @@ public class StockItem {
     int quantity;
     double price;
 
+
+
     @ManyToMany
     private Set<Order> orders = new HashSet<>();
+
+    @ManyToOne
+    private Rating rating;
+
+    @ManyToOne
+    private Comment comment;
+
 
     public Set<Order> getOrders() {
         return orders;
@@ -36,6 +45,13 @@ public class StockItem {
         this.price = price;
         this.quantity = quantity;
     }
+
+    public StockItem(Integer id, Set<Order> orders, Rating rating) {
+        this.id = id;
+        this.orders = orders;
+        this.rating = rating;
+    }
+
 
     public Integer getId() {
         return id;
