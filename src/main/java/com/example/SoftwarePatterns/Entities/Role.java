@@ -13,20 +13,19 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String name;
+    @ManyToMany(mappedBy = "roles")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private List<User> users;
 
 
     public Role() {
 
     }
+
     public Role(String name) {
         this.name = name;
     }
-
-    @ManyToMany(mappedBy = "roles")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private List<User> users;
 
     public int getId() {
         return id;
@@ -51,4 +50,6 @@ public class Role {
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
+
 }

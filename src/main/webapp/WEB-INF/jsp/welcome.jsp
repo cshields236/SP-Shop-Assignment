@@ -37,6 +37,10 @@
             <a class="nav-item nav-link" href="/register">Register</a>
             <a class="nav-item nav-link " href="/show-stock">View Store</a>
             <a class="nav-item nav-link " href="/add-stock">Add New Product</a>
+            <form action="/search/">
+            <input type="text" placeholder="Search.." th:text="title" >
+            <td colspan="2"><button type="submit" >Search</button> </td>
+            </form>
 
 
         </div>

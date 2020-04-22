@@ -158,6 +158,12 @@ public class MainController {
     }
 
 
+    @GetMapping(path = "/search")
+    public String search(@RequestParam String title) {
+        return title;
+
+    }
+
     @GetMapping(path = "/show-stock-searched/{title}")
     public String getSearched(HttpServletRequest request, @PathVariable(value = "title") String title) {
         Iterable<StockItem> getAllStocks = stockService.findByTitle(title);

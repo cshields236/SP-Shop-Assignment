@@ -1,9 +1,7 @@
 package com.example.SoftwarePatterns.Controllers;
 
-import com.example.SoftwarePatterns.Entities.Item;
-import com.example.SoftwarePatterns.Entities.StockItem;
+import com.example.SoftwarePatterns.Entities.CartItem;
 import com.example.SoftwarePatterns.EntityRepos.StockRepository;
-import com.example.SoftwarePatterns.Services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,15 +31,15 @@ public class CartController {
     public String buy(@PathVariable("id") int id, HttpSession session) {
 
         if (session.getAttribute("cart") == null) {
-            List<Item> cart = new ArrayList<Item>();
-            cart.add(new Item(stockService.findById(id), 1));
+            List<CartItem> cart = new ArrayList<CartItem>();
+            cart.add(new CartItem(stockService.findById(id), 1));
 
             session.setAttribute("cart", cart);
         } else {
-            List<Item> cart = (List<Item>) session.getAttribute("cart");
+            List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
             int index = this.exists(id, cart);
             if (index == -1) {
-                cart.add(new Item(stockService.findById(id), 1));
+                cart.add(new CartItem(stockService.findById(id), 1));
             } else {
                 int quantity = cart.get(index).getQuantity() + 1;
                 cart.get(index).setQuantity(quantity);
@@ -55,7 +53,7 @@ public class CartController {
 
     @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)
     public String remove(@PathVariable("id") int id, HttpSession session) {
-        List<Item> cart = (List<Item>) session.getAttribute("cart");
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
         int index = this.exists(id, cart);
         cart.remove(index);
 
@@ -64,7 +62,7 @@ public class CartController {
         return "welcome";
     }
 
-    private int exists(int id, List<Item> cart) {
+    private int exists(int id, List<CartItem> cart) {
         for (int i = 0; i < cart.size(); i++) {
             if (cart.get(i).getStockItem().getId() == id) {
                 return i;

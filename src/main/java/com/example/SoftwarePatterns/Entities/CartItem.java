@@ -1,15 +1,20 @@
 package com.example.SoftwarePatterns.Entities;
 
-public class Item {
+import javax.persistence.*;
 
+@Entity
+public class CartItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-
+    @ManyToOne
     private StockItem stockItem;
     private int quantity;
 
 
 
-    public Item(StockItem stockItem, int quantity) {
+    public CartItem(StockItem stockItem, int quantity) {
         this.stockItem = stockItem;
         this.quantity = quantity;
     }
@@ -30,7 +35,7 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public Item() {
+    public CartItem() {
     }
 
 
