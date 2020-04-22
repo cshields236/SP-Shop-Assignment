@@ -1,24 +1,27 @@
 package com.example.SoftwarePatterns.Controllers;
 
 import com.example.SoftwarePatterns.Entities.CartItem;
+import com.example.SoftwarePatterns.Entities.StockItem;
 import com.example.SoftwarePatterns.EntityRepos.StockRepository;
+import com.example.SoftwarePatterns.Services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "cart")
 public class CartController {
     @Autowired
     private StockRepository stockService;
+    @Autowired
+    protected OrderService orderService;
 
     @GetMapping(value = "index")
     public String index(HttpServletRequest request) {
@@ -69,6 +72,15 @@ public class CartController {
             }
         }
         return -1;
+    }
+
+    @PostMapping("/cart/submit")
+    public String cartSubmit(Model model) {
+        Set<StockItem> productsInCart = orderService.getCartContent();
+        model.addAttribute("productsInCart", productsInCart);
+        model.addAttribute("totalCartPrice", orderService.getTotalCartPrice());
+        model.addAttribute("mode", "SUBMIT");
+        return "welcome";
     }
 }
 

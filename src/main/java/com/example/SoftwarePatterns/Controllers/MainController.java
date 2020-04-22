@@ -34,9 +34,9 @@ public class MainController {
     private UserService userService;
 
 
-    @RequestMapping("/welcome")
+    @RequestMapping("/")
     public String Welcome(HttpServletRequest request) {
-        request.setAttribute("mode", "MODE_HOME");
+        request.setAttribute("mode", "MODE_LOGIN");
         return "welcome";
     }
 

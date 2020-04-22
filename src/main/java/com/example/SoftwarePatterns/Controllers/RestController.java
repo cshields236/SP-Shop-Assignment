@@ -23,11 +23,6 @@ public class RestController {
     @Autowired
     private StockService stockService;
 
-    @RequestMapping("/")
-    public String welcome() {
-
-        return "welcome";
-    }
 
     @PostMapping("/addCustomer")
     public String addCustomer(@ModelAttribute User user, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
@@ -41,6 +36,14 @@ public class RestController {
         httpServletRequest.setAttribute("mode", "STORE_ITEMS");
         return "welcome";
     }
+
+//    @RequestMapping("/edit-stock/{id}")
+//    public String editStock(@PathVariable(value = "id") int itemID, HttpServletRequest httpServletRequest) {
+//        httpServletRequest.setAttribute("mode", "MODE_EDIT");
+//        StockItem stockItem1 =  stockService.findById(itemID);
+//        httpServletRequest.setAttribute("stockItem", stockItem1);
+//        return "welcome";
+//    }
 
 
 }

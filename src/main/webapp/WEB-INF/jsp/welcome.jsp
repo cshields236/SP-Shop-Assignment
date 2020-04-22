@@ -33,13 +33,14 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="/login">Login</a>
-            <a class="nav-item nav-link" href="/register">Register</a>
+#            <a class="nav-item nav-link" href="/register">Register</a>
             <a class="nav-item nav-link " href="/show-stock">View Store</a>
             <a class="nav-item nav-link " href="/add-stock">Add New Product</a>
             <form action="/search/">
-            <input type="text" placeholder="Search.." th:text="title" >
-            <td colspan="2"><button type="submit" >Search</button> </td>
+                <input type="text" placeholder="Search.." th:text="title">
+                <td colspan="2">
+                    <button type="submit">Search</button>
+                </td>
             </form>
 
 
@@ -49,10 +50,33 @@
 
 <c:choose>
     <c:when test="${mode=='MODE_HOME' }">
-        <div class="container" id="homediv">
-            <div class="jumbotron text-center">
-                <h1>Welcome to The Store</h1>
-            </div>
+        <div class="container text-center">
+            <h3>User Login</h3>
+            <hr>
+            <form class="form-horizontal" method="POST" action="/login-user">
+                <c:if test="${not empty error }">
+                    <div class="alert alert-danger">
+                        <c:out value="${error }"></c:out>
+                    </div>
+                </c:if>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Username</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="username"
+                               value="${user.username }" th:text="${user.username }"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Password</label>
+                    <div class="col-md-7">
+                        <input type="password" class="form-control" name="password"
+                               value="${user.password }"/>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <input type="submit" class="btn btn-primary" value="Login"/>
+                </div>
+            </form>
         </div>
 
     </c:when>
@@ -162,10 +186,10 @@
                 </div>
 
 
-        <div class="form-group ">
-            <input type="submit" class="btn btn-primary" value="Register"/>
-        </div>
-        </form>
+                <div class="form-group ">
+                    <input type="submit" class="btn btn-primary" value="Register"/>
+                </div>
+            </form>
         </div>
 
     </c:when>
@@ -203,60 +227,58 @@
     </c:when>
 
 
-
     <c:when test="${mode=='MODE_EDIT' }">
         <div align="center">
             <h1>Edit Product</h1>
-            <br />
-            <form method="get" action="/stockItem/${id}" >
+            <br/>
+            <form method="get" action="/stockItem/${id}">
                 <p>
 
-                    <table border="0" cellpadding="10">
-                        <tr>
-                            <td>Product ID:</td>
-                            <td>
-                                <input type="text" th:field="{item.id }" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Product Name:</td>
-                            <td>
-                                <input type="text" th:field="*{item.title }" th:text="{stockItem.title }" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Manufacturer:</td>
-                            <td><input type="text" th:field="{item.manufacturer }" /></td>
-                        </tr>
-                        <tr>
-                            <td>Category:</td>
-                            <td><input type="text" th:field="*{item.category }" /></td>
-                        </tr>
-                        <tr>
-                            <td>Image:</td>
-                            <td><input type="text" th:field="*{item.image }" /></td>
-                        </tr>
-                        <tr>
-                            <td>Price:</td>
-                            <td><input type="text" th:field="*{item.price }" /></td>
-                        </tr>
-                        <tr>
-                            <td>Quantity:</td>
-                            <td><input type="text" th:field="*{item.quantity}" /></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><button type="submit">Save</button> </td>
-                        </tr>
-                    </table>
+                <table border="0" cellpadding="10">
+                    <tr>
+                        <td>Product ID:</td>
+                        <td>
+                            <input type="text" th:field="{item.id }"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Product Name:</td>
+                        <td>
+                            <input type="text" th:field="*{item.title }" th:text="{stockItem.title }"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Manufacturer:</td>
+                        <td><input type="text" th:field="{item.manufacturer }"/></td>
+                    </tr>
+                    <tr>
+                        <td>Category:</td>
+                        <td><input type="text" th:field="*{item.category }"/></td>
+                    </tr>
+                    <tr>
+                        <td>Image:</td>
+                        <td><input type="text" th:field="*{item.image }"/></td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td><input type="text" th:field="*{item.price }"/></td>
+                    </tr>
+                    <tr>
+                        <td>Quantity:</td>
+                        <td><input type="text" th:field="*{item.quantity}"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="submit">Save</button>
+                        </td>
+                    </tr>
+                </table>
 
                 </p>
 
             </form>
         </div>
     </c:when>
-
-
-
 
 
     <c:when test="${mode=='STORE_ITEMS' }">
@@ -282,7 +304,7 @@
                             <td>${stockItem.title }</td>
                             <td>${stockItem.manufacturer }</td>
                             <td>${stockItem.category }</td>
-                            <td><img src=${stockItem.image } width="50" > </td>
+                            <td><img src=${stockItem.image } width="50"></td>
                             <td>${stockItem.price }</td>
                             <td>${stockItem.quantity }</td>
                             <td><a href="/cart/buy/${stockItem.id }"><span>
@@ -319,7 +341,7 @@
                             <td>${stockItem.title }</td>
                             <td>${stockItem.manufacturer }</td>
                             <td>${stockItem.category }</td>
-                            <td><img src=${stockItem.image } width="50" > </td>
+                            <td><img src=${stockItem.image } width="50"></td>
                             <td>${stockItem.price }</td>
                             <td>${stockItem.quantity }</td>
                             <td><a href="/cart/buy/${stockItem.id }"><span>
@@ -331,7 +353,6 @@
             </div>
         </div>
     </c:when>
-
 
 
     <c:when test="${mode=='STORE_CART' }">
@@ -375,7 +396,48 @@
         <a href="${pageContext.request.contextPath }/show-stock">Continue
             Shopping </a>
 
-        <a href="${pageContext.request.contextPath }/show-stock">Checkout </a>
+        <form method="post" action="/cart/submit">
+            <button class="btn btn-success float-right">Submit</button>
+        </form>
+        </a>
+    </c:when>
+
+
+    <c:when test="${mode=='SUBMIT' }">
+
+        <jsp:body>
+            <h3>Please Confirm Your Order</h3>
+            <c:if test="${productsInCart.size() != 0}">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="product" items="${productsInCart}">
+                        <tr>
+                            <td><c:out value="${product.getName()}"/></td>
+                            <td><c:out value="${product.getDescription()}"/></td>
+                            <td><c:out value="${product.getPrice()}"/></td>
+                        </tr>
+                    </c:forEach>
+                    <tr>
+                        <td colspan="2"><strong>Total Cost</strong></td>
+                        <td>${totalCartPrice}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <a class="btn btn-success float-left" href="/cart">Back to Cart</a>
+                    <form method="post" action="/cart/confirm">
+                        <button class="btn btn-success float-right">Confirm</button>
+                    </form>
+                </div>
+            </c:if>
+        </jsp:body>
     </c:when>
 
 </c:choose>
