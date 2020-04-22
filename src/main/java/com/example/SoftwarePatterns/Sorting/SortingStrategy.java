@@ -1,4 +1,4 @@
-package com.example.SoftwarePatterns.SortingStrategy;
+package com.example.SoftwarePatterns.Sorting;
 
 import com.example.SoftwarePatterns.Entities.StockItem;
 
