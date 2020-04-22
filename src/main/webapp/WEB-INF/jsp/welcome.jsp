@@ -35,6 +35,9 @@
             <a class="nav-item nav-link" href="/login">Login</a>
             <a class="nav-item nav-link" href="/register">Register</a>
             <a class="nav-item nav-link " href="/show-stock">View Store</a>
+            <a class="nav-item nav-link " href="/add-stock">Add New Product</a>
+
+
         </div>
     </div>
 </nav>
@@ -216,7 +219,7 @@
                             <td>${stockItem.title }</td>
                             <td>${stockItem.manufacturer }</td>
                             <td>${stockItem.category }</td>
-                            <td><img src=${stockItem.image }.jpg></td>
+                            <td><img src=${stockItem.image } width="50" > </td>
                             <td>${stockItem.price }</td>
                             <td>${stockItem.quantity }</td>
                             <td><a href="/cart/buy/${stockItem.id }"><span>

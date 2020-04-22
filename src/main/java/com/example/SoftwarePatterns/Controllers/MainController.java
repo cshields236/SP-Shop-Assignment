@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.beans.Transient;
 import java.util.*;
 
@@ -108,6 +109,30 @@ public class MainController {
 
     }
 
+
+
+    @PutMapping("/stockItem/{id}")
+    public String updateProduct(@PathVariable(value = "id") int itemID) {
+
+        StockItem stockItem = stockService.findById(itemID);
+        stockItem.setTitle(stockItem.getTitle());
+        stockItem.setManufacturer(stockItem.getManufacturer());
+        stockItem.setCategory(stockItem.getCategory());
+        stockItem.setImage(stockItem.getImage());
+        stockItem.setPrice(stockItem.getPrice());
+        stockItem.setQuantity(stockItem.getQuantity() -1 );
+
+
+
+        stockService.save(stockItem);
+        return "Welcome";
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable(name = "id") int id) {
+        stockService.delete(stockService.findById(id));
+        return "welcome";
+    }
     @GetMapping(path = "/show-stock")
     public String getAll(HttpServletRequest request) {
         // This returns a JSON or XML with the users
