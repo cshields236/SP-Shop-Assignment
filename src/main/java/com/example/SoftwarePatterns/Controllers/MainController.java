@@ -92,15 +92,19 @@ public class MainController {
         }
     }
 
-
+    @RequestMapping("/addProduct")
+    public String addProduct(HttpServletRequest request) {
+        request.setAttribute("mode", "MODE_ADD_Product");
+        return "welcome";
+    }
     @PostMapping(path = "/addStock")
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody
-    String addNewStock(@RequestParam String title, @RequestParam String manufacturer, @RequestParam String category, @RequestParam String image, @RequestParam double price, @RequestParam int quantity) {
+    String addNewStock(@RequestParam String title, @RequestParam String manufacturer, @RequestParam String category, @RequestParam String image, @RequestParam double price, @RequestParam int quantity, HttpServletRequest request) {
 
         StockItem item = new StockItem(title, manufacturer, category, image, price, quantity);
         stockService.save(item);
-        return "Saved!";
+        return "welcome";
 
     }
 

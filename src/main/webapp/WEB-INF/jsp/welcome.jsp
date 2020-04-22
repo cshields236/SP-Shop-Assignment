@@ -48,59 +48,115 @@
         </div>
 
     </c:when>
-    <c:when test="${mode=='MODE_REGISTER' }">
+    <c:when test="${mode=='MODE_ADD_Product' }">
 
-        <form:form method="POST" action="addCustomer" class="form-signin">
-            <h2 class="form-signin-heading">Create your account</h2>
-            <div class="container">
-            <spring:bind path="name">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="text" path="name" class="form-control" placeholder="Name"
-                                autofocus="true"></form:input>
-                    <form:errors path="name"></form:errors>
+
+        <div class="container text-center">
+            <h3>Add Product</h3>
+            <hr>
+            <form method="POST" action="/add-stock">
+                <input type="hidden" name="id" value="${stockItem.id }"/>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Title</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="Title"
+                               value="${stockItem.title }"/>
+                    </div>
                 </div>
-            </spring:bind>
-
-
-            <spring:bind path="username">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="text" path="username" class="form-control" placeholder="Username"
-                                autofocus="true"></form:input>
-                    <form:errors path="username"></form:errors>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Manufacturer</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="manufacturer"
+                               value="${stockItem.manufacturer }"/>
+                    </div>
                 </div>
-            </spring:bind>
-
-            <spring:bind path="password">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="password" path="password" class="form-control"
-                                placeholder="Password"></form:input>
-                    <form:errors path="password"></form:errors>
+                <div class="form-group">
+                    <label class="control-label col-md-12">Category</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="category"
+                               value="${stockItem.category }"/>
+                    </div>
                 </div>
-            </spring:bind>
-            <spring:bind path="address">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="text" path="address" class="form-control" placeholder="Address"
-                                autofocus="true"></form:input>
-                    <form:errors path="address"></form:errors>
+                <div class="form-group">
+                    <label class="control-label col-md-3">image </label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="image"
+                               value="${stockItem.image }"/>
+                    </div>
                 </div>
-            </spring:bind>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Price</label>
+                    <div class="col-md-12">
+                        <input type="number" class="form-control" name="price"
+                               value="${stockItem.price }"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Quantity</label>
+                        <div class="col-md-12">
+                            <input type="number" class="form-control" name="quantity"
+                                   value="${stockItem.quantity }"/>
+                        </div>
+                    </div>
 
-
-            <spring:bind path="payment">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="text" path="passwordConfirm" class="form-control"
-                                placeholder="Enter Your Payment Type"></form:input>
-                    <form:errors path="payment"></form:errors>
                 </div>
-            </spring:bind>
-
-
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-        </form:form>
-
+                <div class="form-group ">
+                    <input type="submit" class="btn btn-primary" value="Add Product"/>
+                </div>
+            </form>
         </div>
 
+    </c:when>
+
+
+    <c:when test="${mode=='MODE_REGISTER' }">
+
+        <div class="container text-center">
+            <h3>Register</h3>
+            <hr>
+            <form method="POST" action="/addCustomer">
+                <input type="hidden" name="id" value="${user.id }"/>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Name</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="name"
+                               value="${user.name }"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Username</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="username"
+                               value="${user.username }"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-12">Password</label>
+                    <div class="col-md-12">
+                        <input type="password" class="form-control" name="password"
+                               value="${user.password }"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Address </label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="address"
+                               value="${user.address }"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Payment Type</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="payment"
+                               value="${user.payment }"/>
+                    </div>
+                </div>
+
+        </div>
+        <div class="form-group ">
+            <input type="submit" class="btn btn-primary" value="Register"/>
+        </div>
+        </form>
+        </div>
 
     </c:when>
 
