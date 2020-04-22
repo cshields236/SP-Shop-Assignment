@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -51,6 +52,8 @@
         </div>
 
     </c:when>
+
+
     <c:when test="${mode=='MODE_ADD_Product' }">
 
 
@@ -154,7 +157,7 @@
                     </div>
                 </div>
 
-        </div>
+
         <div class="form-group ">
             <input type="submit" class="btn btn-primary" value="Register"/>
         </div>
@@ -178,7 +181,7 @@
                     <label class="control-label col-md-3">Username</label>
                     <div class="col-md-7">
                         <input type="text" class="form-control" name="username"
-                               value="${user.username }"/>
+                               value="${user.username }" th:text="${user.username }"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -197,9 +200,56 @@
 
 
 
+    <c:when test="${mode=='MODE_EDIT' }">
+        <div align="center">
+            <h1>Edit Product</h1>
+            <br />
+            <form method="get" action="/stockItem/${id}" >
+                <p>
 
+                    <table border="0" cellpadding="10">
+                        <tr>
+                            <td>Product ID:</td>
+                            <td>
+                                <input type="text" th:field="{item.id }" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Product Name:</td>
+                            <td>
+                                <input type="text" th:field="*{item.title }" th:text="{stockItem.title }" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Manufacturer:</td>
+                            <td><input type="text" th:field="{item.manufacturer }" /></td>
+                        </tr>
+                        <tr>
+                            <td>Category:</td>
+                            <td><input type="text" th:field="*{item.category }" /></td>
+                        </tr>
+                        <tr>
+                            <td>Image:</td>
+                            <td><input type="text" th:field="*{item.image }" /></td>
+                        </tr>
+                        <tr>
+                            <td>Price:</td>
+                            <td><input type="text" th:field="*{item.price }" /></td>
+                        </tr>
+                        <tr>
+                            <td>Quantity:</td>
+                            <td><input type="text" th:field="*{item.quantity}" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><button type="submit">Save</button> </td>
+                        </tr>
+                    </table>
 
+                </p>
 
+            </form>
+        </div>
+    </c:when>
 
 
 
@@ -242,6 +292,44 @@
     </c:when>
 
 
+    <c:when test="${mode=='STORE_ITEMS_SEARCH' }">
+        <div class="container text-center" id="tasksDiv" action="/show-stock-searched/{title}">
+            <h3>Stock</h3>
+            <hr>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Manufacturer</th>
+                        <th>Category</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="stockItem" items="${Items }">
+                        <tr>
+                            <td>${stockItem.title }</td>
+                            <td>${stockItem.manufacturer }</td>
+                            <td>${stockItem.category }</td>
+                            <td><img src=${stockItem.image } width="50" > </td>
+                            <td>${stockItem.price }</td>
+                            <td>${stockItem.quantity }</td>
+                            <td><a href="/cart/buy/${stockItem.id }"><span>
+                                <input type="submit" class="btn btn-primary" value="Add To Cart"/></span></a></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </c:when>
+
+
+
     <c:when test="${mode=='STORE_CART' }">
         <h3>Cart Page</h3>
         <table class="table table-striped table-bordered">
@@ -281,7 +369,9 @@
         </table>
         <br>
         <a href="${pageContext.request.contextPath }/show-stock">Continue
-            Shopping img</a>
+            Shopping </a>
+
+        <a href="${pageContext.request.contextPath }/show-stock">Checkout </a>
     </c:when>
 
 </c:choose>

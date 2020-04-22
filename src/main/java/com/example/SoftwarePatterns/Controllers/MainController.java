@@ -52,7 +52,7 @@ public class MainController {
 
         List<Role> roles = new ArrayList<>();
 
-        
+
         roles.add(new Role(r));
         User user = new User(name, username, password, address, payment, roles);
 
@@ -98,6 +98,7 @@ public class MainController {
         request.setAttribute("mode", "MODE_ADD_Product");
         return "welcome";
     }
+
     @PostMapping(path = "/addStock")
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody
@@ -110,9 +111,15 @@ public class MainController {
     }
 
 
+    @RequestMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable(name = "id") int id) {
+        stockService.delete(stockService.findById(id));
+        return "welcome";
+    }
 
     @PutMapping("/stockItem/{id}")
-    public String updateProduct(@PathVariable(value = "id") int itemID) {
+    public String updateProduct(@PathVariable(value = "id") int itemID, HttpServletRequest request) {
+
 
         StockItem stockItem = stockService.findById(itemID);
         stockItem.setTitle(stockItem.getTitle());
@@ -120,25 +127,42 @@ public class MainController {
         stockItem.setCategory(stockItem.getCategory());
         stockItem.setImage(stockItem.getImage());
         stockItem.setPrice(stockItem.getPrice());
-        stockItem.setQuantity(stockItem.getQuantity() -1 );
-
+        stockItem.setQuantity(stockItem.getQuantity() - 1);
 
 
         stockService.save(stockItem);
-        return "Welcome";
-    }
-
-    @RequestMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable(name = "id") int id) {
-        stockService.delete(stockService.findById(id));
         return "welcome";
     }
+
+
+    @RequestMapping("/edit-stock/{id}")
+    public String editStock(@PathVariable(value = "id") int itemID, HttpServletRequest httpServletRequest) {
+        StockItem stockItem1 = stockService.findById(itemID);
+        httpServletRequest.setAttribute("stock", stockItem1);
+        if (stockItem1 != null) {
+            httpServletRequest.setAttribute("mode", "MODE_EDIT");
+            return "welcome";
+        } else {
+            httpServletRequest.setAttribute("mode", "MODE_HOME");
+        }
+        return "welcome";
+    }
+
+
     @GetMapping(path = "/show-stock")
     public String getAll(HttpServletRequest request) {
-        // This returns a JSON or XML with the users
         Iterable<StockItem> getAllStocks = stockService.findAll();
         request.setAttribute("Items", getAllStocks);
         request.setAttribute("mode", "STORE_ITEMS");
+        return "welcome";
+    }
+
+
+    @GetMapping(path = "/show-stock-searched/{title}")
+    public String getSearched(HttpServletRequest request, @PathVariable(value = "title") String title) {
+        Iterable<StockItem> getAllStocks = stockService.findByTitle(title);
+        request.setAttribute("Items", getAllStocks);
+        request.setAttribute("mode", "STORE_ITEMS_SEARCH");
         return "welcome";
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class RestController {
@@ -25,7 +26,8 @@ public class RestController {
     @RequestMapping("/")
     public String welcome() {
 
-        return "welcome";    }
+        return "welcome";
+    }
 
     @PostMapping("/addCustomer")
     public String addCustomer(@ModelAttribute User user, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
@@ -34,8 +36,11 @@ public class RestController {
     }
 
     @PostMapping("/add-stock")
-    public String addCustomer(@ModelAttribute StockItem stockItem, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
+    public String addStock (@ModelAttribute StockItem stockItem, BindingResult bindingResult, HttpServletRequest httpServletRequest) {
         stockService.saveStock(stockItem);
-        httpServletRequest.setAttribute("mode" ,"STORE_ITEMS");
-        return "welcome";    }
+        httpServletRequest.setAttribute("mode", "STORE_ITEMS");
+        return "welcome";
+    }
+
+
 }
